@@ -151,7 +151,7 @@ const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export async function retryWithBackoff<T>(
   fn: () => Promise<T>,
-  maxRetries = 3,
+  maxRetries = 4,
   baseDelayMs = 5000,
 ): Promise<T> {
   let attempt = 0;

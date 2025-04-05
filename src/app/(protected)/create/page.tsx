@@ -49,7 +49,9 @@ const CreatePage = () => {
             reset();
           },
           onError: () => {
-            toast.error("Failed to create project");
+            toast.error(
+              "Failed to create project. If you're using a large GitHub repo, it might exceed Vercel’s 10s free tier limit. Try with a smaller repo.",
+            );
           },
         },
       );
@@ -138,6 +140,21 @@ const CreatePage = () => {
                 </div>
               )
             )}
+            {!checkCredits.data && (
+              <div className="mt-4 rounded-md border border-orange-200 bg-orange-50 px-4 py-2 text-orange-700">
+                <div className="flex items-center gap-2">
+                  <Info className="size-4" />
+                  <p className="text-sm">
+                    We recommend using smaller repositories (under
+                    <br />
+                    20 files) to avoid Vercel’s 10-second
+                    <br />
+                    limit on the free tier.
+                  </p>
+                </div>
+              </div>
+            )}
+
             <div className="h-4"></div>
             <Button
               type="submit"
