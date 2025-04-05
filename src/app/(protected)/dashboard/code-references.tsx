@@ -22,7 +22,7 @@ const CodeReferences = ({
   const heightClass = heightVariant === "qa" ? "max-h-[55vh]" : "max-h-[40vh]";
 
   return (
-    <div className="max-w-[80vw]">
+    <div className="max-w-[77vw]">
       <Tabs value={tab} onValueChange={setTab}>
         <div className="flex gap-2 overflow-scroll rounded-md bg-gray-200 p-1">
           {filesReferences.map((file) => (
