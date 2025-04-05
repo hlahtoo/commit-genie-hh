@@ -1,5 +1,6 @@
-import { Button } from "@/components/ui/button";
+// app/page.tsx or app/page.jsx
+import { redirect } from "next/navigation";
 
-export default async function Home() {
-  return <Button> Click me</Button>;
+export default function Home() {
+  redirect("/dashboard");
 }
