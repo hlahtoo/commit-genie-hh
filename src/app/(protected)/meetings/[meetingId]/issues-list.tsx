@@ -75,6 +75,7 @@ function IssueCard({
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent>
           <DialogHeader>
+            <DialogTitle>{issue.gist}</DialogTitle>
             <DialogDescription>
               {issue.createdAt.toLocaleDateString()}
             </DialogDescription>

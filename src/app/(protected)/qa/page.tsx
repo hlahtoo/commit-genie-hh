@@ -63,10 +63,11 @@ const QAPage = () => {
             <SheetTitle>{question.question}</SheetTitle>
             <MDEditor.Markdown
               source={question.answer}
-              className="rounded-md p-4"
+              className="h-[30vh] overflow-scroll rounded-md p-4"
             />
             <CodeReferences
               filesReferences={(question.filesReferences ?? []) as any}
+              heightVariant="qa"
             />
           </SheetHeader>
         </SheetContent>

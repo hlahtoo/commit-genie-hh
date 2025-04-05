@@ -36,18 +36,30 @@ const MeetingCard = () => {
   const [progress, setProgress] = React.useState(0);
   const router = useRouter();
   const uploadMeeting = api.project.uploadMeeting.useMutation();
+  const checkCreditsForMeeting =
+    api.project.checkCreditsForMeeting.useMutation();
   const { getRootProps, getInputProps } = useDropzone({
     accept: {
       "audio/*": [".mp3", ".wav", ".m4a"],
     },
     multiple: false,
-    maxSize: 50_000_000,
+    maxSize: 40_000_000,
     onDrop: async (acceptedFiles) => {
       if (!project) return;
       setIsUploading(true);
       console.log(acceptedFiles);
       const file = acceptedFiles[0];
       if (!file) return;
+      const check = await checkCreditsForMeeting.mutateAsync({
+        fileSize: file.size,
+      });
+      if (check.userCredits < check.creditsRequired) {
+        toast.error(
+          `You need ${check.creditsRequired} credits to upload this file, but only have ${check.userCredits}.`,
+        );
+        setIsUploading(false);
+        return;
+      }
       const downloadURL = (await uploadFile(
         file as File,
         setProgress,
@@ -73,14 +85,27 @@ const MeetingCard = () => {
           },
         },
       );
-      window.alert(downloadURL);
       setIsUploading(false);
+    },
+    onDropRejected: (fileRejections) => {
+      setIsUploading(false);
+      for (const rejection of fileRejections) {
+        for (const error of rejection.errors) {
+          if (error.code === "file-too-large") {
+            toast.error("File is too large. Maximum size is 40MB.");
+          } else if (error.code === "file-invalid-type") {
+            toast.error("Invalid file type. Please upload an audio file.");
+          } else {
+            toast.error(error.message);
+          }
+        }
+      }
     },
   });
 
   return (
     <Card
-      className="col-span-2 flex flex-col items-center justify-center p-10"
+      className="col-span-2 flex min-h-[250px] flex-col items-center justify-center p-10"
       {...getRootProps()}
     >
       {!isUploading && (
@@ -90,12 +115,15 @@ const MeetingCard = () => {
             Create a new meeting
           </h3>
           <p className="mt-1 text-center text-sm text-gray-500">
-            Analyse your meeting with Dionysus.
+            Analyse your meeting with CommitGenie.
             <br />
             Powered by AI.
+            <br />1 MB costs 1 credit.
           </p>
           <div className="mt-6">
-            <Button disabled={isUploading}>
+            <Button
+              disabled={isUploading || !!checkCreditsForMeeting.isPending}
+            >
               <Upload className="-ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
               Upload Meeting
               <input className="hidden" {...getInputProps()} />
@@ -104,17 +132,15 @@ const MeetingCard = () => {
         </>
       )}
       {isUploading && (
-        <div className="">
-          <CircularProgressbar
-            value={progress}
-            text={`${progress}%`}
-            className="size-20"
-            styles={buildStyles({
-              pathColor: "#8b5cf6 ",
-              textColor: "#8b5cf6 ",
-            })}
-          />
-          <p className="text-center text-sm text-gray-500">
+        <div className="h-20">
+          <div className="h-4 w-64 overflow-hidden rounded-full bg-gray-200">
+            <div
+              className="h-full bg-violet-500 transition-all duration-300"
+              style={{ width: `${100}%` }}
+            />
+          </div>
+          <p className="mt-4 text-center text-sm text-gray-600">{100}%</p>
+          <p className="mt-4 text-center text-sm text-gray-500">
             Uploading your meeting...
           </p>
         </div>

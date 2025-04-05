@@ -92,7 +92,7 @@ const AskQuestionCard = () => {
           </DialogHeader>
           <MDEditor.Markdown
             source={answer}
-            className="!h-full max-h-[30vh] max-w-[80vw] overflow-scroll rounded-md bg-white p-4 text-black"
+            className="h-[30vh] max-w-[80vw] overflow-scroll rounded-md bg-white p-4 text-black"
           />
           <div className="h-4"></div>
           <CodeReferences filesReferences={filesReferences} />

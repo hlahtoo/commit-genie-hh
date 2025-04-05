@@ -2,7 +2,7 @@ import { z } from "zod";
 // Zod is a TypeScript-first validation library.
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 import { pollCommits } from "@/lib/github";
-import { indexGithubRepo } from "@/lib/github-loader";
+import { checkCredits, indexGithubRepo } from "@/lib/github-loader";
 
 export const projectRouter = createTRPCRouter({
   createProject: protectedProcedure
@@ -16,6 +16,22 @@ export const projectRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
+      const user = await ctx.db.user.findUnique({
+        where: { id: ctx.user.userId! },
+        select: { credits: true },
+      });
+
+      if (!user) {
+        throw new Error("User not found");
+      }
+
+      const currentCredits = user.credits || 0;
+      const fileCount = await checkCredits(input.githubUrl, input.githubToken);
+
+      if (currentCredits < fileCount) {
+        throw new Error("Insufficient credits");
+      }
+      console.log("Got file count", fileCount);
       const project = await ctx.db.project.create({
         data: {
           githubUrl: input.githubUrl,
@@ -28,7 +44,12 @@ export const projectRouter = createTRPCRouter({
         },
       });
       await indexGithubRepo(project.id, input.githubUrl, input.githubToken);
+      console.log("completed index Githubrepo");
       await pollCommits(project.id);
+      await ctx.db.user.update({
+        where: { id: ctx.user.userId! },
+        data: { credits: { decrement: fileCount } },
+      });
       return project;
     }),
   getProjects: protectedProcedure.query(async ({ ctx }) => {
@@ -162,4 +183,54 @@ export const projectRouter = createTRPCRouter({
       select: { credits: true },
     });
   }),
+  checkCredits: protectedProcedure
+    .input(
+      z.object({ githubUrl: z.string(), githubToken: z.string().optional() }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      try {
+        const fileCount = await checkCredits(
+          input.githubUrl,
+          input.githubToken,
+        );
+
+        const userCredits = await ctx.db.user.findUnique({
+          where: { id: ctx.user.userId! },
+          select: { credits: true },
+        });
+
+        if (!userCredits) {
+          throw new Error("User credits not found");
+        }
+
+        return {
+          fileCount,
+          userCredits: userCredits.credits || 0,
+        };
+      } catch (err: any) {
+        console.error("❌ checkCredits mutation failed:", err.message);
+        throw new Error(
+          err.message.includes("rate limit")
+            ? "GitHub API rate limit exceeded. Please try again later."
+            : err.message || "Failed to check credits.",
+        );
+      }
+    }),
+
+  checkCreditsForMeeting: protectedProcedure
+    .input(z.object({ fileSize: z.number() }))
+    .mutation(async ({ ctx, input }) => {
+      const user = await ctx.db.user.findUnique({
+        where: { id: ctx.user.userId! },
+        select: { credits: true },
+      });
+
+      if (!user) throw new Error("User not found");
+
+      const creditsRequired = Math.ceil(input.fileSize / 1_000_000); // 1 credit per MB
+      return {
+        creditsRequired,
+        userCredits: user.credits,
+      };
+    }),
 });

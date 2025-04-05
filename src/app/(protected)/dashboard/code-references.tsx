@@ -8,15 +8,21 @@ import { lucario } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 type Props = {
   filesReferences: { fileName: string; sourceCode: string; summary: string }[];
+  heightVariant?: "dashboard" | "qa";
 };
 
-const CodeReferences = ({ filesReferences }: Props) => {
+const CodeReferences = ({
+  filesReferences,
+  heightVariant = "dashboard",
+}: Props) => {
   const [tab, setTab] = React.useState(filesReferences[0]?.fileName);
 
   if (filesReferences.length === 0) return null;
 
+  const heightClass = heightVariant === "qa" ? "max-h-[55vh]" : "max-h-[40vh]";
+
   return (
-    <div className="max-w-[70vw]">
+    <div className="max-w-[80vw]">
       <Tabs value={tab} onValueChange={setTab}>
         <div className="flex gap-2 overflow-scroll rounded-md bg-gray-200 p-1">
           {filesReferences.map((file) => (
@@ -38,9 +44,13 @@ const CodeReferences = ({ filesReferences }: Props) => {
           <TabsContent
             key={file.fileName}
             value={file.fileName}
-            className="max-h-[40vh] max-w-7xl overflow-scroll rounded-md"
+            className={cn("w-full overflow-scroll rounded-md", heightClass)}
           >
-            <SyntaxHighlighter language="typescript" style={lucario}>
+            <SyntaxHighlighter
+              language="typescript"
+              style={lucario}
+              className="w-full"
+            >
               {file.sourceCode}
             </SyntaxHighlighter>
           </TabsContent>

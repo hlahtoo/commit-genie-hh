@@ -8,7 +8,7 @@ const client = new AssemblyAI({
 // const audioFile = "./example.mp3"
 
 // Or use a publicly-accessible URL:
-const audioFile = "https://assembly.ai/wildfires.mp3";
+// const audioFile = "https://assembly.ai/wildfires.mp3";
 
 function msToTime(ms: number) {
   const seconds = ms / 1000;
@@ -38,5 +38,5 @@ export const processMeeting = async (meetingUrl: string) => {
   };
 };
 
-const response = await processMeeting(audioFile);
-console.log(response);
+// const response = await processMeeting(audioFile);
+// console.log(response);
