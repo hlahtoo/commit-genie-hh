@@ -121,7 +121,7 @@ const AskQuestionCard = () => {
             />
             <div className="h-4"></div>
             <Button type="submit" disabled={loading}>
-              Ask Dionysus!
+              Ask CommitGenie!
             </Button>
           </form>
         </CardContent>

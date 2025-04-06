@@ -4,19 +4,18 @@ Generate meaningful insights from your GitHub repository and meeting audios effo
 
 ## 📋 Table of Contents
 
-- [Overview](#-overview)
-- [Core Features](#-core-features)
-- [Technology Stack](#%EF%B8%8F-technology-stack)
-- [Screenshots / Demo](#-screenshots--demo)
-- [Installation & Setup](#%EF%B8%8F-installation--setup)
-- [Usage Examples](#-usage-examples)
-- [Deployment](#-deployment)
-- [Project Structure](#-project-structure)
-- [License](#-license)
+- [Overview](#overview)
+- [Core Features](#core-features)
+- [Screenshots / Demo](#screenshots--demo)
+- [Technology Stack](#technology-stack)
+- [Installation & Setup](#installation--setup)
+- [Project Structure](#project-structure)
+- [License](#license)
 - [Connect with Me](#-connect-with-me)
 
 ## Overview
 
+![CommitGenie Overview](https://firebasestorage.googleapis.com/v0/b/commit-genie.firebasestorage.app/o/CommitGenie.png?alt=media&token=a56ba0df-3fee-44fa-ad77-e787a6c87782)
 CommitGenie is an intelligent, AI-driven tool designed to enhance developer productivity by generating automated commit summaries, providing deep insights into your codebase, and seamlessly extracting essential information from meeting audio recordings. Save time, improve clarity, and streamline your project workflow with CommitGenie.
 
 ## Core Features
@@ -48,6 +47,23 @@ CommitGenie is an intelligent, AI-driven tool designed to enhance developer prod
 
 - Implements a credit-based system, charging users fairly based on the number of files processed and audio file sizes.
 - Integrated payment gateway powered by Stripe.
+
+## Screenshots / Demo
+
+- **Import and Create a Project from GitHub Repo**
+  ![Create Project](https://firebasestorage.googleapis.com/v0/b/commit-genie.firebasestorage.app/o/CommitGenie%2Fp-1.png?alt=media&token=b457ba6d-bb04-464f-b361-da4312aba1ff)
+- **Dashboard with AI-powered Q&A and Meeting Summary & Issues Extraction**
+  ![Dashboard](https://firebasestorage.googleapis.com/v0/b/commit-genie.firebasestorage.app/o/CommitGenie%2Fp-2.png?alt=media&token=092ae868-beea-4c92-9c4c-3498c0b6b3db)
+- **Ask specific questions and get precise answers based on embedding & cosine similarity**
+  ![QnA](https://firebasestorage.googleapis.com/v0/b/commit-genie.firebasestorage.app/o/CommitGenie%2Fp-3.png?alt=media&token=e08ca8b3-d3cf-4902-9190-0a648f6e0fb8)
+- **Team Collaboration via Invitations**
+  ![Team Collaboration](https://firebasestorage.googleapis.com/v0/b/commit-genie.firebasestorage.app/o/CommitGenie%2Fp-4.png?alt=media&token=c0f16b9f-101b-4639-97da-502d79091ed6)
+- **AI-powered Meeting Audio Data Extration**
+  ![Audio Summary](https://firebasestorage.googleapis.com/v0/b/commit-genie.firebasestorage.app/o/CommitGenie%2Fp-5.png?alt=media&token=b8459f2b-97e3-48f3-9ad0-26af2afd5e3a)
+- **Processed Meeting Example**
+  ![Audio Summary Example](https://firebasestorage.googleapis.com/v0/b/commit-genie.firebasestorage.app/o/CommitGenie%2Fp-6.png?alt=media&token=2ae3275d-c2cd-47c5-8e9b-0e826aaf93e3)
+- **Credit Payment System Powered with Stripe**
+  ![Billing](https://firebasestorage.googleapis.com/v0/b/commit-genie.firebasestorage.app/o/CommitGenie%2Fp-7.png?alt=media&token=6d6788a9-de8e-434f-9bd5-f34d40f3b999)
 
 ## Technology Stack
 
@@ -199,8 +215,6 @@ src/
 │   ├── env.js              ← Runtime environment helper
 │   └── middleware.ts       ← Auth middleware (Clerk, etc.)
 ```
-
-## Screenshots / Demo
 
 ## License
 
