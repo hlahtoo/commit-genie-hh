@@ -2,6 +2,8 @@
 
 Generate meaningful insights from your GitHub repository and meeting audios effortlessly.
 
+**🔗 Live at:** [https://commit-genie-hh.vercel.app/](https://commit-genie-hh.vercel.app/)
+
 ## 📋 Table of Contents
 
 - [Overview](#overview)
@@ -11,7 +13,7 @@ Generate meaningful insights from your GitHub repository and meeting audios effo
 - [Installation & Setup](#installation--setup)
 - [Project Structure](#project-structure)
 - [License](#license)
-- [Connect with Me](#-connect-with-me)
+- [Connect with Me](#connect-with-me)
 
 ## Overview
 
@@ -220,12 +222,8 @@ src/
 
 MIT © Hla Htoo
 
-## 🙌 Connect with Me
+## Connect with Me
 
 - [🌐 Portfolio](https://yourportfolio.com)
 - [🔗 LinkedIn](https://www.linkedin.com/in/yourprofile)
 - [🐙 GitHub](https://github.com/yourusername)
-
-```
-
-```
